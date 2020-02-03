@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t, m, x, y, s;
+        t = sc.nextInt();
+        for(; t > 0; t--) {
+            m = sc.nextInt();
+            x = sc.nextInt();
+            y = sc.nextInt();
+            int[] c = new int[m + 2];
+            c[m + 1] = 101 + x * y;
+            for(int i = 1; i <= m; i++) {
+                c[i] = sc.nextInt();
+            }
+            for(int i = 2; i <= m; i++) {
+                if(c[i] < c[i - 1]) {
+                    for(int j = i; j > 1; j--) {
+                        if(c[j] < c[j - 1]) {
+                            s = c[j];
+                            c[j] = c[j - 1];
+                            c[j - 1] = s;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+            s = 100 - m;
+            for(int i = 1; i <= m; i++) {
+                if(c[i] - x * y > c[i - 1]) {
+                    s = s - x * y;
+                } else {
+                    s = s - c[i] + c[i - 1] + 1;
+                }
+                if(c[i] + x * y < c[i + 1] - x * y) {
+                    s = s - x * y;
+                } else if(c[i + 1] - c[i] > x * y) {
+                    s = s + c[i] - c[i + 1] + 1 + x * y;
+                }
+            }
+            System.out.println(s);
+        }
+    }
+}
